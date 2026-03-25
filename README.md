@@ -20,42 +20,37 @@
 **→ 3〜5を繰り返して精度を改善**
 
 
-最新の結果
---- 💡 LightGBM 特徴量重要度 Top 10 ---
-                  Feature  Importance
-       num__MonthlyIncome         730
-  num__MonthlyAchievement         644
-    num__PerformanceIndex         502
-            num__OverTime         400
-   num__TotalWorkingYears         363
-    num__DistanceFromHome         337
-        num__StressRating         269
-  num__NumCompaniesWorked         261
-           num__Incentive         241
-num__YearsWithCurrManager         222
+## 最新の結果
 
--> 予測を間違えた 34 人のデータを 'error_analysis.csv' に保存しました！
-wandb: 
-wandb: Run history:
-wandb:  base_accuracy ▁
-wandb:        base_f1 ▁
-wandb: base_precision ▁
-wandb:    base_recall ▁
-wandb:   base_roc_auc ▁
-wandb:  lgbm_accuracy ▁
-wandb:        lgbm_f1 ▁
-wandb: lgbm_precision ▁
-wandb:    lgbm_recall ▁
-wandb:   lgbm_roc_auc ▁
-wandb: 
-wandb: Run summary:
-wandb:  **base_accuracy 0.86054**
-wandb:        base_f1 0.38806
-wandb: base_precision 0.68421
-wandb:    base_recall 0.27083
-wandb:   base_roc_auc 0.81513
-wandb:  **lgbm_accuracy 0.88435**
-wandb:        lgbm_f1 0.52778
-wandb: lgbm_precision 0.79167
-wandb:    lgbm_recall 0.39583
-wandb:   lgbm_roc_auc 0.81631
+### 💡 LightGBM 特徴量重要度 Top 10
+
+| 特徴量 | 重要度 |
+| :--- | :--- |
+| `MonthlyIncome` | 730 |
+| `MonthlyAchievement` | 644 |
+| `PerformanceIndex` | 502 |
+| `OverTime` | 400 |
+| `TotalWorkingYears` | 363 |
+| `DistanceFromHome` | 337 |
+| `StressRating` | 269 |
+| `NumCompaniesWorked` | 261 |
+| `Incentive` | 241 |
+| `YearsWithCurrManager` | 222 |
+
+> 予測を間違えた **34人** のデータを `error_analysis.csv` に保存しました。
+
+### 📊 モデル評価結果
+
+**ベースラインモデル (ロジスティック回帰)**
+- **Accuracy**: 0.86054
+- **Precision**: 0.68421
+- **Recall**: 0.27083
+- **F1 Score**: 0.38806
+- **ROC-AUC**: 0.81513
+
+**改善モデル (LightGBM)**
+- **Accuracy**: 0.88435
+- **Precision**: 0.79167
+- **Recall**: 0.39583
+- **F1 Score**: 0.52778
+- **ROC-AUC**: 0.81631
