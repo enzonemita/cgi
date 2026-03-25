@@ -26,31 +26,31 @@
 
 | 特徴量 | 重要度 |
 | :--- | :--- |
-| `MonthlyIncome` | 730 |
-| `MonthlyAchievement` | 644 |
-| `PerformanceIndex` | 502 |
-| `OverTime` | 400 |
-| `TotalWorkingYears` | 363 |
-| `DistanceFromHome` | 337 |
-| `StressRating` | 269 |
-| `NumCompaniesWorked` | 261 |
-| `Incentive` | 241 |
-| `YearsWithCurrManager` | 222 |
+| `MonthlyIncome` | 521 |
+| `MonthlyAchievement` | 438 |
+| `Income_per_Age` | 419 |
+| `PerformanceIndex` | 370 |
+| `DistanceFromHome` | 339 |
+| `OverTime` | 297 |
+| `Age` | 278 |
+| `Income_per_Year` | 270 |
+| `StressRating` | 249 |
+| `NumCompaniesWorked` | 211 |
 
-> 予測を間違えた **34人** のデータを `error_analysis.csv` に保存しました。
+> 予測を間違えた **33人** のデータを `error_analysis.csv` に保存しました。
 
 ### 📊 モデル評価結果
 
 **ベースラインモデル (ロジスティック回帰)**
-- **Accuracy**: 0.86054
-- **Precision**: 0.68421
-- **Recall**: 0.27083
-- **F1 Score**: 0.38806
-- **ROC-AUC**: 0.81513
+- **Accuracy**: 0.88435
+- **Precision**: 0.76923
+- **Recall**: 0.41667
+- **F1 Score**: 0.54054
+- **ROC-AUC**: 0.84731
 
 **改善モデル (LightGBM)**
-- **Accuracy**: 0.88435
-- **Precision**: 0.79167
+- **Accuracy**: 0.88776
+- **Precision**: 0.82609
 - **Recall**: 0.39583
-- **F1 Score**: 0.52778
-- **ROC-AUC**: 0.81631
+- **F1 Score**: 0.53521
+- **ROC-AUC**: 0.82266
