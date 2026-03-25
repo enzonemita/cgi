@@ -27,6 +27,17 @@ np.random.seed(SEED)
 # ==============================================================================
 print("データの読み込み中...")
 df = pd.read_csv("data.csv")
+# --------------------------------------------------------------------------------
+# 特徴量エンジニアリング（ゲームチェンジャー）
+# 既存の変数だけでは限界が来るため、掛け合わせでより強いシグナルを生み出す
+# --------------------------------------------------------------------------------
+df["Income_per_Age"] = df["MonthlyIncome"] / df["Age"]  # 若いのに高給(安定) vs 高齢で薄給(不満)
+df["Income_per_Year"] = df["MonthlyIncome"] / (df["TotalWorkingYears"] + 1) # キャリア年数対比の給料
+df["Dissatisfaction"] = 4 - df["EnvironmentSatisfaction"]
+df["OverTime_x_Dissatisfaction"] = df["OverTime"] * df["Dissatisfaction"] # 残業＋環境不満の掛け合わせ(ブラック度)
+df["Stagnation_Index"] = df["YearsInCurrentRole"] / (df["YearsSinceLastPromotion"] + 1) # 同じ役職にいるのに昇進してない度合い
+
+X = df.drop(columns=["Attrition", "EmployeeCount", "EmployeeNumber", "Over18", "StandardHours", "Year", "Dissatisfaction"])
 df["Attrition"] = df["Attrition"].map({"Yes": 1, "No": 0})
 y = df["Attrition"]
 
@@ -36,22 +47,28 @@ y = df["Attrition"]
 # 過去の実験をまとめて記録できるように、特徴量の組み合わせをリストにしてループで回します
 experiments = [
     {
-        "name": "exp10_pruned_enhanced",
+        "name": "exp15_game_changers",
         "numeric": [
             "MonthlyIncome", "JobLevel", "OverTime", "EnvironmentSatisfaction",
             "StockOptionLevel", "NumCompaniesWorked", "YearsSinceLastPromotion",
             "JobSatisfaction", "TotalWorkingYears", "YearsInCurrentRole",
             "DistanceFromHome", "Incentive",
-            "Education", "YearsWithCurrManager", "StressSelfReported",
+            "YearsWithCurrManager", "StressSelfReported",
             "PerformanceRating", "JobInvolvement",
-            # ↓ 第5ラウンドで追加
-            "YearsAtCompany",        # d=0.57 (誤報防止に最強)
-            "StressRating",          # d=0.34 (ストレス評価)
+            "YearsAtCompany", "StressRating",
+            "MonthlyAchievement", "TrainingTimesLastYear", "PerformanceIndex",
+            "WorkLifeBalance", "Age", "ExtendedLeave", "RemoteWork",
+            "RelationshipSatisfaction", 
+            # 前回のノイズ（ExternalFacility, InHouseFacility）は削除
+            # WelfareBenefits, Education, FlexibleWork を再投入するかわりに
+            # ↓ 【ゲームチェンジャー】強力な掛け合わせ・派生特徴量を新規投入
+            "Income_per_Age",
+            "Income_per_Year",
+            "OverTime_x_Dissatisfaction",
+            "Stagnation_Index"
         ],
-        # JobRole を削除（7つの One-Hot で全て貢献 < 1%のノイズ）
-        # MaritalStatus を復活（見逃しケースで+7%偏り）
-        "categorical": ["BusinessTravel", "MaritalStatus"],
-        "description": "ノイズ(JobRole)削除 + YearsAtCompany/StressRating/MaritalStatus追加"
+        "categorical": [],
+        "description": "第10ラウンド: 特徴量の掛け合わせ(Feature Interaction)というゲームチェンジャーを投入"
     }
 ]
 
