@@ -36,13 +36,22 @@ y = df["Attrition"]
 # 過去の実験をまとめて記録できるように、特徴量の組み合わせをリストにしてループで回します
 experiments = [
     {
-        "name": "exp7_ultimate_insights",
+        "name": "exp10_pruned_enhanced",
         "numeric": [
             "MonthlyIncome", "JobLevel", "OverTime", "EnvironmentSatisfaction",
-            "StockOptionLevel", "NumCompaniesWorked", "YearsSinceLastPromotion"
+            "StockOptionLevel", "NumCompaniesWorked", "YearsSinceLastPromotion",
+            "JobSatisfaction", "TotalWorkingYears", "YearsInCurrentRole",
+            "DistanceFromHome", "Incentive",
+            "Education", "YearsWithCurrManager", "StressSelfReported",
+            "PerformanceRating", "JobInvolvement",
+            # ↓ 第5ラウンドで追加
+            "YearsAtCompany",        # d=0.57 (誤報防止に最強)
+            "StressRating",          # d=0.34 (ストレス評価)
         ],
-        "categorical": ["JobRole", "BusinessTravel"],
-        "description": "婚姻状況を削除し、帰属意識や定着性(Stock, 転職回数など)を追加"
+        # JobRole を削除（7つの One-Hot で全て貢献 < 1%のノイズ）
+        # MaritalStatus を復活（見逃しケースで+7%偏り）
+        "categorical": ["BusinessTravel", "MaritalStatus"],
+        "description": "ノイズ(JobRole)削除 + YearsAtCompany/StressRating/MaritalStatus追加"
     }
 ]
 
